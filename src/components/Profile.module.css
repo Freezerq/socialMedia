@@ -1,0 +1,14 @@
+
+.content {
+    grid-area: c;
+    background-color: lightgrey;
+}
+
+.fonImage {
+    width: 1200px;
+    height: 350px;
+}
+
+.item {
+
+}

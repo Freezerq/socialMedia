@@ -1,0 +1,9 @@
+.navbar {
+    grid-area: n;
+    background-color: cornflowerblue;
+}
+
+.item {
+    display: block;
+    color: white;
+}

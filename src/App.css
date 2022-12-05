@@ -3,7 +3,7 @@
 }
 
 .app-wrapper {
-  width: 1200px;
+  width: 1400px;
   margin: 0 auto;
   display: grid;
   grid-template-areas:
@@ -14,31 +14,6 @@
   grid-template-rows: 1fr 5fr;
 }
 
-.header img{
-  width: 70px;
-  height: 70px;
-}
 
-.header {
-  grid-area: h;
-  background-color: lawngreen;
-}
 
-.navbar {
-  grid-area: n;
-  background-color: cornflowerblue;
-}
 
-.navbar a {
-  display: block;
-}
-
-.content {
-  grid-area: c;
-  background-color: lightgrey;
-}
-
-.content img {
-  width: 1000px;
-  height: 350px;
-}
