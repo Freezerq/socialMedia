@@ -11,9 +11,12 @@
           "n c"
           "n c";
   grid-template-columns: 1fr 5fr;
-  grid-template-rows: 1fr 5fr;
+  grid-template-rows: 1fr 99fr;
 }
 
 
-
+.app-wrapper-content {
+    grid-area: c;
+    background-color: lightgrey;
+}
 

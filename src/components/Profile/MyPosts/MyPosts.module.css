@@ -9,6 +9,8 @@
     height: 350px;
 }
 
-.item {
+
+.postarea {
+    display: flex;
 
 }
