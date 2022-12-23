@@ -1,19 +1,48 @@
-import React from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import classes from "./MyPosts.module.css"
 import Post from "./Post/Post";
+import {PostType} from "../../../redux/state";
 
-const MyPosts = () => {
+
+type MyPostsPropsType = {
+    postsData: Array<PostType>
+    addPost: (message: string) => void
+}
+
+const MyPosts = (props: MyPostsPropsType) => {
+
+
+    let postElements = props.postsData.map(p => <Post message={p.message} likes={p.likes} id={p.id} key={p.id}/>)
+
+    let [textAreaInput, setTextAreaInput] = useState<string>('')
+
+    const textAreaOnChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        setTextAreaInput(e.currentTarget.value)
+    }
+
+    const onClickButtonHandler = () => {
+        if (textAreaInput.trim()) {
+            props.addPost(textAreaInput)
+            setTextAreaInput('')
+            console.log(props.postsData)
+        }
+        else {
+            alert('Пустое сообщение нельзя добавить')
+            setTextAreaInput('')
+        }
+    }
+
+
     return (
         <div className={classes.content}>
             <div>
-                My posts
+                <h2>My posts</h2>
                 <div className={classes.postarea}>
-                    <textarea></textarea>
-                    <button>Добавить пост</button>
+                    <textarea value={textAreaInput} onChange={textAreaOnChange}></textarea>
+                    <button onClick={onClickButtonHandler}>Добавить пост</button>
                 </div>
             </div>
-            <Post message='Hi, How are you?' likes={5}/>
-            <Post message='Hi, what a well weather!' likes={7}/>
+            {postElements}
         </div>
     );
 };

@@ -4,6 +4,7 @@ import classes from "./Post.module.css";
 type PostPropsType = {
     message: string
     likes: number
+    id: number
 }
 
 const Post = (props:PostPropsType) => {
