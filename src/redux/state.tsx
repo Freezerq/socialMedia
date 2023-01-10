@@ -1,4 +1,6 @@
-import {rerenderEntireTree} from "../render";
+let rerenderEntireTree = (state: StateType) => {
+    console.log('changed')
+}
 
 export type PostType = {
     message: string
@@ -25,9 +27,14 @@ const addPost = (message: string) => {
     }
     state.profilePage.postsData.push(post)
     rerenderEntireTree(state)
-    console.log('отрисовано ежжжжжи')
 }
 
+
+export let subscribe = (observer: (state: StateType) => void) => {
+    console.log('subscribe вызвалась')
+    rerenderEntireTree = observer
+    console.log(rerenderEntireTree)
+}
 
 export type StateType = {
     dialogsPage: {
@@ -63,9 +70,9 @@ let state: StateType = {
         postsData: [
             {message: 'Hi Dimon', id: 1, likes: 1},
             {message: '2 Post', id: 2, likes: 6},
-            {message: 'Thirdddddddddd', id: 3, likes: 2},
-            {message: 'FOurht!!!!', id: 4, likes: 4},
-            {message: 'ПЯТЬ ЁПТА', id: 5, likes: 11},
+            {message: '3', id: 3, likes: 2},
+            {message: '4!!!!', id: 4, likes: 4},
+            {message: '555', id: 5, likes: 11},
         ],
         addPost: addPost
     }

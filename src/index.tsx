@@ -1,7 +1,19 @@
-import React from 'react';
 import './index.css';
-import state from "./redux/state";
-import {rerenderEntireTree} from "./render";
+import state, {subscribe} from "./redux/state";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App';
+import {StateType} from "./redux/state";
+
+
+let rerenderEntireTree = (state: StateType) => {
+    ReactDOM.render(
+        <App state={state}/>,
+        document.getElementById('root')
+    );
+}
 
 
 rerenderEntireTree(state)
+subscribe(rerenderEntireTree)
