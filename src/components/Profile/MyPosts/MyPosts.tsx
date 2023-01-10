@@ -1,12 +1,12 @@
 import React, {ChangeEvent, useState} from 'react';
 import classes from "./MyPosts.module.css"
 import Post from "./Post/Post";
-import {ActionType, PostType} from "../../../redux/state";
+import {ActionTypes, AddPostAC, PostType} from "../../../redux/state";
 
 
 type MyPostsPropsType = {
     postsData: Array<PostType>
-    dispatch: (action: ActionType) => void
+    dispatch: (action: ActionTypes) => void
 }
 
 const MyPosts = (props: MyPostsPropsType) => {
@@ -22,7 +22,7 @@ const MyPosts = (props: MyPostsPropsType) => {
 
     const onClickButtonHandler = () => {
         if (textAreaInput.trim()) {
-            props.dispatch({text:"ADD-POST", message: textAreaInput})
+            props.dispatch(AddPostAC(textAreaInput))
             setTextAreaInput('')
             console.log(props.postsData)
         }

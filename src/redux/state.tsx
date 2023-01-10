@@ -29,12 +29,21 @@ export type StoreType = {
     subscribe: (observer: (store: StoreType) => void) => void
     _rerenderEntireTree: (store: StoreType) => void
     getState: () => StateType
-    dispatch: (action: ActionType) => void
+    dispatch: (action: ActionTypes) => void
 }
 
-export type ActionType = {
+export type ActionTypes = AddPostActionType
+
+export type AddPostActionType = {
     text: "ADD-POST"
-    message?: string
+    message: string
+}
+
+export const AddPostAC = (message: string): AddPostActionType => {
+    return {
+        text: "ADD-POST",
+        message: message
+    }
 }
 
 let store: StoreType = {
@@ -75,7 +84,7 @@ let store: StoreType = {
         return this._state
     },
 
-    dispatch(action: ActionType) {
+    dispatch(action: ActionTypes) {
         if (action.text === 'ADD-POST') {
             if (action.message) {
                 let post: PostType = {
