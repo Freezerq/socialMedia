@@ -23,7 +23,7 @@ function App({store}: AppPropsType) {
                 <Navbar/>
                 <div className="app-wrapper-content">
                     <Route exact path='/dialogs'
-                           render={() => <Dialogs state={state.dialogsPage}/>}/>
+                           render={() => <Dialogs state={state.dialogsPage} dispatch={store.dispatch.bind(store)}/>}/>
                     <Route exact path='/profile'
                            render={() => <Profile dispatch={store.dispatch.bind(store)} postsData={state.profilePage.postsData}/>}/>
                 </div>

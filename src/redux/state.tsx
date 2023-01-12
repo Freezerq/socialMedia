@@ -1,3 +1,6 @@
+import dialogsPageReducer from "./dialogsPageReducer";
+import profilePageReducer from "./profilePageReducer";
+
 export type StateType = {
     dialogsPage: {
         messagesData: Array<MessageType>,
@@ -32,19 +35,25 @@ export type StoreType = {
     dispatch: (action: ActionTypes) => void
 }
 
-export type ActionTypes = AddPostActionType
+
+export type ActionTypes = AddPostActionType | SendMessageActionType
+
 
 export type AddPostActionType = {
     text: "ADD-POST"
     message: string
 }
 
-export const AddPostAC = (message: string): AddPostActionType => {
-    return {
-        text: "ADD-POST",
-        message: message
-    }
+
+export type SendMessageActionType = {
+    text: "SEND-MESSAGE"
+    message: string
 }
+
+
+
+
+
 
 let store: StoreType = {
     _state: {
@@ -85,29 +94,16 @@ let store: StoreType = {
     },
 
     dispatch(action: ActionTypes) {
-        if (action.text === 'ADD-POST') {
-            if (action.message) {
-                let post: PostType = {
-                    message: action.message, // тут должен приходить message каким-то образом
-                    id: 7,
-                    likes: 0
-                }
-                this._state.profilePage.postsData.push(post)
-                this._rerenderEntireTree(store)
-            }
+        switch (action.text) {
+            case "ADD-POST":
+                profilePageReducer(store.getState(), action)
+                break;
+            case 'SEND-MESSAGE':
+                dialogsPageReducer(store.getState(), action)
+                console.log(store)
+                break;
         }
     },
-
-    // addPost(message: string) {
-    //         let post: PostType = {
-    //             message: '', // тут должен приходить message каким-то образом
-    //             id: 7,
-    //             likes: 0
-    //         }
-    //         this._state.profilePage.postsData.push(post)
-    //         this._rerenderEntireTree(store)
-    // },
-
 
     _rerenderEntireTree(store: StoreType) {
         console.log('changed')
