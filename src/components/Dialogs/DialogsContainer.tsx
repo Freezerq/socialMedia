@@ -10,7 +10,7 @@ type DialogsContainerPropsType = {
 
 
 const DialogsContainer = ({store}: DialogsContainerPropsType) => {
-
+// hey
     const [textAreaInput, setTextAreaInput] = useState('')
     const textAreaOnChange = (text: string) => {
         setTextAreaInput(text)
