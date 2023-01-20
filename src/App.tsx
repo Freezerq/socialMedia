@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar/Navbar";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import {BrowserRouter, Route} from "react-router-dom";
 import Profile from "./components/Profile/Profile";
+import Users from "./components/Users/Users";
 
 
 
@@ -25,6 +26,11 @@ function App() {
                     <Route
                         exact path='/profile'
                         render={() => <Profile/>}
+                    />
+
+                    <Route
+                        exact path='/users'
+                        render={() => <Users/>}
                     />
 
                 </div>

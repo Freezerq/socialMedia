@@ -1,11 +1,26 @@
-import {ActionTypes, DialogType, MessageType, PostType, SendMessageActionType, StateType} from "./state";
+import {ActionTypes} from "./redux-store";
+
+export type DialogType = {
+    name: string
+    id: number
+}
+
+export type MessageType = {
+    message: string
+    id: number
+}
 
 export const SendMessageAC = (message: string): any => {
     return {
         type: "SEND-MESSAGE",
         message: message
     }
+}
 
+
+export type SendMessageActionType = {
+    type: "SEND-MESSAGE"
+    message: string
 }
 
 export type dialogsPageInitialStateType = {
@@ -32,21 +47,16 @@ let initialState = {
     ],
 }
 
-const dialogsPageReducer = (state: dialogsPageInitialStateType = initialState, action: any) => {
+const dialogsPageReducer = (state: dialogsPageInitialStateType = initialState, action: ActionTypes): dialogsPageInitialStateType => {
 
     switch (action.type) {
         case "SEND-MESSAGE":
             if (action.message) {
-                let post: MessageType = {
-                    message: action.message, // тут должен приходить message каким-то образом
-                    id: 7,
+                return {
+                    ...state,
+                    messagesData: [...state.messagesData, {message: action.message, id: 7,}]
                 }
-                state.messagesData.push(post)
-                console.log(state.messagesData)
             }
-            break;
-        default:
-            return state
     }
     return state
 }

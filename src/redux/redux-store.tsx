@@ -1,13 +1,16 @@
 import {combineReducers, createStore} from "redux"
-import profilePageReducer from "./profilePageReducer";
-import dialogsPageReducer from "./dialogsPageReducer";
+import profilePageReducer, {AddPostActionType} from "./profilePageReducer";
+import dialogsPageReducer, {SendMessageActionType} from "./dialogsPageReducer";
+import usersPageReducer, {FollowActionType, UnFollowActionType} from "./usersPageReducer";
 
+export type ActionTypes = AddPostActionType | SendMessageActionType | FollowActionType | UnFollowActionType
 
 
 
 export const rootReducer = combineReducers({
     profilePage: profilePageReducer,
-    dialogsPage: dialogsPageReducer
+    dialogsPage: dialogsPageReducer,
+    usersPage: usersPageReducer
 })
 
 export type AppStateType = ReturnType<typeof rootReducer>

@@ -1,14 +1,15 @@
+import {ActionTypes} from "./redux-store";
 
 
-export type StateType = {
-    dialogsPage: {
-        messagesData: Array<MessageType>,
-        dialogsData: Array<DialogType>,
-    },
-    profilePage: {
-        postsData: Array<PostType>,
-    }
-}
+// export type StateType = {
+//     dialogsPage: {
+//         messagesData: Array<MessageType>,
+//         dialogsData: Array<DialogType>,
+//     },
+//     profilePage: {
+//         postsData: Array<PostType>,
+//     }
+// }
 //
 export type PostType = {
     message: string
@@ -16,38 +17,20 @@ export type PostType = {
     likes: number
 }
 
-export type DialogType = {
-    name: string
-    id: number
-}
-
-export type MessageType = {
-    message: string
-    id: number
-}
-//
-export type StoreType = {
-    _state: StateType
-    subscribe: (observer: (store: StoreType) => void) => void
-    _rerenderEntireTree: (store: StoreType) => void
-    getState: () => StateType
-    dispatch: (action: ActionTypes) => void
-}
 
 //
-export type ActionTypes = AddPostActionType | SendMessageActionType
+// export type StoreType = {
+//     _state: StateType
+//     subscribe: (observer: (store: StoreType) => void) => void
+//     _rerenderEntireTree: (store: StoreType) => void
+//     getState: () => StateType
+//     dispatch: (action: ActionTypes) => void
+// }
+
+//
 
 
-export type AddPostActionType = {
-    type: "ADD-POST"
-    message: string
-}
 
-
-export type SendMessageActionType = {
-    type: "SEND-MESSAGE"
-    message: string
-}
 
 //
 //

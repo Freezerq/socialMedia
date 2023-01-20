@@ -3,12 +3,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import {StateType, StoreType} from "./redux/state";
 import {Provider} from "react-redux";
 import {store} from "./redux/redux-store";
 
-
-let rerenderEntireTree = (state: StateType) => {
+//
+// let rerenderEntireTree = (state: StateType) => {
 
     ReactDOM.render(
        <Provider store={store}>
@@ -16,11 +15,11 @@ let rerenderEntireTree = (state: StateType) => {
        </Provider>,
         document.getElementById('root')
     );
-}
+// }
 
 
-rerenderEntireTree(store.getState())
-store.subscribe(() => {
-    let state = store.getState()
-    rerenderEntireTree(state)
-})
+// rerenderEntireTree(store.getState())
+// store.subscribe(() => {
+//     let state = store.getState()
+//     rerenderEntireTree(state)
+// })
