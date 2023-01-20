@@ -1,31 +1,25 @@
 import React, {ChangeEvent, useState} from 'react';
 import classes from "./MyPosts.module.css"
 import Post from "./Post/Post";
-import {ActionTypes,  PostType} from "../../../redux/state";
+import {MyPostsPropsType} from "./MyPostsContainer";
 
 
-type MyPostsPropsType = {
-    postsData: Array<PostType>
-    onClick: (text: string) => void
-    textAreaInput: string
-    onChange: (text: string) => void
-    setTextAreaInput: (text: string) => void
-}
 
 const MyPosts = (props: MyPostsPropsType) => {
 
 
-    let postElements = props.postsData.map(p => <Post message={p.message} likes={p.likes} id={p.id} key={p.id}/>)
+    let postElements = props.profilePage.postsData.map(p => <Post message={p.message} likes={p.likes} id={p.id} key={p.id}/>)
+    let [textAreaInput, setTextAreaInput] = useState<string>('')
 
 
 
     const onClickButtonHandler = () => {
-        props.onClick(props.textAreaInput)
-        props.setTextAreaInput('')
+        props.addPost(textAreaInput)
+        setTextAreaInput('')
     }
 
     const textAreaOnChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.onChange(e.currentTarget.value)
+        setTextAreaInput(e.currentTarget.value)
     }
 
     return (
@@ -33,7 +27,7 @@ const MyPosts = (props: MyPostsPropsType) => {
             <div>
                 <h2>My posts</h2>
                 <div className={classes.postarea}>
-                    <textarea value={props.textAreaInput} onChange={textAreaOnChange}></textarea>
+                    <textarea value={textAreaInput} onChange={textAreaOnChange}></textarea>
                     <button onClick={onClickButtonHandler}>Добавить пост</button>
                 </div>
             </div>

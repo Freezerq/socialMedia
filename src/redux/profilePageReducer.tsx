@@ -1,4 +1,4 @@
-import {ActionTypes, AddPostActionType, MessageType, PostType, StateType} from "./state";
+import {AddPostActionType, PostType} from "./state";
 
 export const AddPostAC = (message: string): AddPostActionType => {
     return {
@@ -7,11 +7,11 @@ export const AddPostAC = (message: string): AddPostActionType => {
     }
 }
 
-type profilePageInitialStateType = {
+export type profilePageInitialStateType = {
     postsData: Array<PostType>
 }
 
-let initialState = {
+const initialState = {
     postsData: [
         {message: 'Hi Dimon', id: 1, likes: 1},
         {message: '2 Post', id: 2, likes: 6},

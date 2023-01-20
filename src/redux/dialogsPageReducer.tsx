@@ -8,7 +8,7 @@ export const SendMessageAC = (message: string): any => {
 
 }
 
-type dialogsPageInitialStateType = {
+export type dialogsPageInitialStateType = {
     messagesData: Array<MessageType>,
     dialogsData: Array<DialogType>,
 }

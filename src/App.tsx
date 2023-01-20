@@ -4,17 +4,11 @@ import Header from "./components/Header/Header";
 import Navbar from "./components/Navbar/Navbar";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import {BrowserRouter, Route} from "react-router-dom";
-import {ActionTypes, StoreType} from "./redux/state";
 import Profile from "./components/Profile/Profile";
 
 
-type AppPropsType = {
-    store: any
-}
 
-function App({store}: AppPropsType) {
-
-
+function App() {
 
     return (
         <BrowserRouter>
@@ -25,12 +19,12 @@ function App({store}: AppPropsType) {
 
                     <Route
                         exact path='/dialogs'
-                        render={() => <DialogsContainer store={store}/>}
+                        render={() => <DialogsContainer/>}
                     />
 
                     <Route
                         exact path='/profile'
-                        render={() => <Profile store={store}/>}
+                        render={() => <Profile/>}
                     />
 
                 </div>

@@ -1,42 +1,35 @@
-import React, {ChangeEvent, useState} from 'react';
-import Post from "./Post/Post";
-import {ActionTypes, PostType, StoreType} from "../../../redux/state";
-import {AddPostAC} from "../../../redux/profilePageReducer";
+import React from 'react';
+import {AddPostAC, profilePageInitialStateType} from "../../../redux/profilePageReducer";
+import {AppStateType} from "../../../redux/redux-store";
+import {Dispatch} from "redux";
+import {connect} from "react-redux";
 import MyPosts from "./MyPosts";
 
 
-type MyPostsContainerPropsType = {
-    store: StoreType
+type ProfileMapStateToPropsType = {
+    profilePage: profilePageInitialStateType
 }
 
-const MyPostsContainer = ({store}: MyPostsContainerPropsType) => {
+type ProfileMapDispatchToPropsType = {
+    addPost: (message : string) => void
+}
 
-    let [textAreaInput, setTextAreaInput] = useState<string>('')
+export type MyPostsPropsType = ProfileMapStateToPropsType & ProfileMapDispatchToPropsType
 
-    const textAreaOnChange = (text: string) => {
-        setTextAreaInput(text)
+const mapStateToProps = (state: AppStateType): ProfileMapStateToPropsType => {
+    return {
+        profilePage: state.profilePage
     }
+}
 
-    const onClick = (text: string) => {
-        if (text.trim()) {
-            store.dispatch(AddPostAC(text))
-        }
-        else {
-            alert('Пустое сообщение нельзя добавить')
-        }
+const mapDispatchToProps = (dispatch: Dispatch):ProfileMapDispatchToPropsType  => {
+    return {
+        addPost: (message: string) => {
+            dispatch(AddPostAC(message))
+        },
     }
+}
 
-
-
-    return (
-        <MyPosts
-            onClick={onClick}
-            postsData={store.getState().profilePage.postsData}
-            setTextAreaInput={setTextAreaInput}
-            textAreaInput={textAreaInput}
-            onChange={textAreaOnChange}
-        />
-    );
-};
+const MyPostsContainer = connect(mapStateToProps, mapDispatchToProps) (MyPosts)
 
 export default MyPostsContainer;
