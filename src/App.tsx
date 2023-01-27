@@ -5,7 +5,7 @@ import Navbar from "./components/Navbar/Navbar";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import {BrowserRouter, Route} from "react-router-dom";
 import Profile from "./components/Profile/Profile";
-import Users from "./components/Users/Users";
+import UsersContainer from "./components/Users/UsersContainer";
 
 
 
@@ -30,7 +30,7 @@ function App() {
 
                     <Route
                         exact path='/users'
-                        render={() => <Users/>}
+                        render={() => <UsersContainer />}
                     />
 
                 </div>
