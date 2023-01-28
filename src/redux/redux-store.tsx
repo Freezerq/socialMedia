@@ -1,15 +1,15 @@
 import {combineReducers, createStore} from "redux"
-import profilePageReducer, {AddPostActionType} from "./profilePageReducer";
+import profilePageReducer, {AddPostActionType, setProfileUserActionType} from "./profilePageReducer";
 import dialogsPageReducer, {SendMessageActionType} from "./dialogsPageReducer";
 import usersPageReducer, {
     ChangePageActionType,
     FollowActionType,
-    SetActionType, TotalUsersCountActionType,
+    SetActionType, ToggleIsFetchingActionType, TotalUsersCountActionType,
     UnFollowActionType
 } from "./usersPageReducer";
 
 export type ActionTypes = AddPostActionType | SendMessageActionType | FollowActionType | UnFollowActionType
-    | SetActionType | ChangePageActionType | TotalUsersCountActionType
+    | SetActionType | ChangePageActionType | TotalUsersCountActionType | ToggleIsFetchingActionType | setProfileUserActionType
 
 
 
@@ -19,7 +19,13 @@ export const rootReducer = combineReducers({
     usersPage: usersPageReducer
 })
 
+
+
 export type AppStateType = ReturnType<typeof rootReducer>
 
 export const store = createStore(rootReducer)
+
+
+// @ts-ignore
+window.store = store;
 

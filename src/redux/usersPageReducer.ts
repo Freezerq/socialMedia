@@ -5,6 +5,8 @@
 //     }
 // }
 // import {ActionTypes} from "./profilePageReducer";
+
+
 import {ActionTypes} from "./redux-store";
 
 export type SetActionType = {
@@ -26,6 +28,18 @@ export type ChangePageActionType = {
 export type TotalUsersCountActionType = {
     type: "GET_TOTAL_USERS_COUNT"
     totalUsersCount: number
+}
+
+export type ToggleIsFetchingActionType = {
+    type: "TOGGLE_IS_FETCHING"
+    isFetching: boolean
+}
+
+export const toggleIsFetchingAC = (isFetching: boolean): ToggleIsFetchingActionType => {
+    return {
+        type: "TOGGLE_IS_FETCHING",
+        isFetching: isFetching
+    }
 }
 
 export const getTotalUsersCountAC = (totalUsersCount: number): TotalUsersCountActionType => {
@@ -89,13 +103,15 @@ export type usersPageInitialStateType = {
     pageSize: number
     totalUsersCount: number
     currentPage: number
+    isFetching: boolean
 }
 
 const initialState: usersPageInitialStateType = {
     users: [],
     pageSize: 5,
     totalUsersCount: 0,
-    currentPage: 3
+    currentPage: 3,
+    isFetching: false
 }
 
 const usersPageReducer = (state: usersPageInitialStateType = initialState, action: ActionTypes): usersPageInitialStateType => {
@@ -124,6 +140,11 @@ const usersPageReducer = (state: usersPageInitialStateType = initialState, actio
             return {
                 ...state,
                 totalUsersCount: action.totalUsersCount
+            }
+        case "TOGGLE_IS_FETCHING":
+            return {
+                ...state,
+                isFetching: action.isFetching
             }
     }
     return state

@@ -1,12 +1,11 @@
 import React from 'react';
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
-import {Dispatch} from "redux";
 import {
     changePageAC,
     followAC,
     getTotalUsersCountAC,
-    SetActionCreator, unFollowAC,
+    SetActionCreator, toggleIsFetchingAC, unFollowAC,
     UserType
 } from "../../redux/usersPageReducer";
 
@@ -14,25 +13,24 @@ import axios from "axios";
 import UsersFunctional from "./UsersFunctional";
 
 class UsersAPIComponent extends React.Component<UsersPropsType> {
-    // код снизу работает по умолчанию
-    // constructor(props: UsersPropsType) {
-    //     super(props);
-    //
-    // }
+
     spanOnClickHandler = (pageNumber: number) => {
         this.props.changePage(pageNumber)
+        this.props.toggleIsFetching(true)
         axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`).then((response) => {
+            this.props.toggleIsFetching(false)
             this.props.set(response.data.items)
+
         })
     }
 
     componentDidMount() {
+        this.props.toggleIsFetching(true)
         axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`).then((response) => {
+            this.props.toggleIsFetching(false)
             this.props.set(response.data.items)
             this.props.getTotalUsersCount(response.data.totalCount)
         })
-
-
     }
 
 
@@ -48,6 +46,8 @@ class UsersAPIComponent extends React.Component<UsersPropsType> {
             follow={this.props.follow}
             spanOnClickHandler={this.spanOnClickHandler}
             unfollow={this.props.unfollow}
+            isFetching={this.props.isFetching}
+            toggleIsFetching={this.props.toggleIsFetching}
         />
     }
 }
@@ -57,7 +57,7 @@ type UsersMapStateToProps = {
     pageSize: number
     totalUsersCount: number
     currentPage: number
-
+    isFetching: boolean
 }
 
 type UsersMapDispatchToProps = {
@@ -66,6 +66,7 @@ type UsersMapDispatchToProps = {
     changePage: (page: number) => void
     getTotalUsersCount: (total: number) => void
     unfollow: (id: number) => void
+    toggleIsFetching: (isFetching: boolean) => void
 }
 
 export type UsersPropsType = UsersMapDispatchToProps & UsersMapStateToProps
@@ -75,32 +76,42 @@ const mapStateToProps = (state: AppStateType): UsersMapStateToProps => {
         users: state.usersPage.users,
         pageSize: state.usersPage.pageSize,
         totalUsersCount: state.usersPage.totalUsersCount,
-        currentPage: state.usersPage.currentPage
-
+        currentPage: state.usersPage.currentPage,
+        isFetching: state.usersPage.isFetching
     }
 }
+//
+// const mapDispatchToProps = (dispatch: Dispatch): UsersMapDispatchToProps => {
+//     return {
+//         follow: (id: number) => {
+//             dispatch(followAC(id))
+//         },
+//         set: (users: Array<UserType>) => {
+//             dispatch(SetActionCreator(users))
+//         },
+//         changePage: (page: number) => {
+//             dispatch(changePageAC(page))
+//         },
+//         getTotalUsersCount: (total: number) => {
+//             dispatch(getTotalUsersCountAC(total))
+//         },
+//         unfollow: (id: number) => {
+//             dispatch(unFollowAC(id))
+//         },
+//         toggleIsFetching: (toggleIsFetching: boolean) => {
+//             dispatch(toggleIsFetchingAC(toggleIsFetching))
+//         }
+//     }
+// }
 
-const mapDispatchToProps = (dispatch: Dispatch):UsersMapDispatchToProps  => {
-    return {
-        follow: (id: number) => {
-            dispatch(followAC(id))
-        },
-        set: (users: Array<UserType>) => {
-            dispatch(SetActionCreator(users))
-        },
-        changePage: (page: number) => {
-            dispatch(changePageAC(page))
-        },
-        getTotalUsersCount: (total: number) => {
-            dispatch(getTotalUsersCountAC(total))
-        },
-        unfollow: (id: number) => {
-            dispatch(unFollowAC(id))
-        },
-    }
-}
 
-
-const UsersContainer = connect(mapStateToProps, mapDispatchToProps) (UsersAPIComponent)
+const UsersContainer = connect(mapStateToProps, {
+        follow: followAC,
+        set: SetActionCreator,
+        changePage: changePageAC,
+        getTotalUsersCount: getTotalUsersCountAC,
+        unfollow: unFollowAC,
+        toggleIsFetching: toggleIsFetchingAC
+    })  (UsersAPIComponent)
 
 export default UsersContainer;

@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from "axios";
 import {UsersPropsType} from "./UsersContainer";
-
+import avatar from '../../images/ava.png'
 
 export const Users = (props: UsersPropsType) => {
     // не стал тут пока ничего делать, тк придётся менять типы 99%, когда начнём делать запросы на серв
@@ -17,7 +17,8 @@ export const Users = (props: UsersPropsType) => {
     return <div>
         <button onClick={getUsers}>Get them all</button>
         {props.users.map(u => <div>
-            {u.name}
+            <div><img src={u.photos.small !== null? u.photos.small : avatar} alt="Фото профиля"/></div>
+            <div>{u.name}</div>
         </div>)}
     </div>
 }

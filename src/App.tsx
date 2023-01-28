@@ -4,8 +4,8 @@ import Header from "./components/Header/Header";
 import Navbar from "./components/Navbar/Navbar";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import {BrowserRouter, Route} from "react-router-dom";
-import Profile from "./components/Profile/Profile";
 import UsersContainer from "./components/Users/UsersContainer";
+import ProfileContainer from "./components/Profile/ProfileContainer";
 
 
 
@@ -24,8 +24,8 @@ function App() {
                     />
 
                     <Route
-                        exact path='/profile'
-                        render={() => <Profile/>}
+                        path='/profile/:userId?'
+                        render={() => <ProfileContainer />}
                     />
 
                     <Route
