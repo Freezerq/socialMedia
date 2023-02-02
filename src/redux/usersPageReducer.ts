@@ -78,6 +78,17 @@ export const SetActionCreator = (list: Array<UserType>) => {
     }
 }
 
+export type followingInProgressActionType = {
+    type: "SET_FOLLOWING_IN_PROGRESS"
+    followingInProgress: number
+}
+
+export const followingInProgressAC = (followingInProgress: number): followingInProgressActionType => {
+    return {
+        type: "SET_FOLLOWING_IN_PROGRESS",
+        followingInProgress: followingInProgress
+    }
+}
 
 
 export type UnFollowActionType = {
@@ -104,14 +115,16 @@ export type usersPageInitialStateType = {
     totalUsersCount: number
     currentPage: number
     isFetching: boolean
+    followingInProgress: Array<number>
 }
 
 const initialState: usersPageInitialStateType = {
     users: [],
-    pageSize: 5,
+    pageSize: 10,
     totalUsersCount: 0,
-    currentPage: 3,
-    isFetching: false
+    currentPage: 1,
+    isFetching: false,
+    followingInProgress: []
 }
 
 const usersPageReducer = (state: usersPageInitialStateType = initialState, action: ActionTypes): usersPageInitialStateType => {
@@ -146,6 +159,24 @@ const usersPageReducer = (state: usersPageInitialStateType = initialState, actio
                 ...state,
                 isFetching: action.isFetching
             }
+        case "SET_FOLLOWING_IN_PROGRESS":
+            const copy = {
+                ...state,
+                followingInProgress: [...state.followingInProgress]
+            }
+            if (copy.followingInProgress.indexOf(action.followingInProgress) >= 0) {
+                return {
+                    ...copy,
+                    followingInProgress: copy.followingInProgress.filter(u => u !== action.followingInProgress)
+                }
+            }
+            else {
+                return {
+                    ...copy,
+                    followingInProgress: [...copy.followingInProgress, action.followingInProgress]
+                }
+            }
+
     }
     return state
 }

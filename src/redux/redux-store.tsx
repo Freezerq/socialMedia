@@ -3,22 +3,32 @@ import profilePageReducer, {AddPostActionType, setProfileUserActionType} from ".
 import dialogsPageReducer, {SendMessageActionType} from "./dialogsPageReducer";
 import usersPageReducer, {
     ChangePageActionType,
-    FollowActionType,
+    FollowActionType, followingInProgressActionType,
     SetActionType, ToggleIsFetchingActionType, TotalUsersCountActionType,
     UnFollowActionType
 } from "./usersPageReducer";
+import authReducer, {SetUserDataActionType} from "./auth-reducer";
 
-export type ActionTypes = AddPostActionType | SendMessageActionType | FollowActionType | UnFollowActionType
-    | SetActionType | ChangePageActionType | TotalUsersCountActionType | ToggleIsFetchingActionType | setProfileUserActionType
-
+export type ActionTypes =
+    AddPostActionType
+    | SendMessageActionType
+    | FollowActionType
+    | UnFollowActionType
+    | SetActionType
+    | ChangePageActionType
+    | TotalUsersCountActionType
+    | ToggleIsFetchingActionType
+    | setProfileUserActionType
+    | SetUserDataActionType
+    | followingInProgressActionType
 
 
 export const rootReducer = combineReducers({
     profilePage: profilePageReducer,
     dialogsPage: dialogsPageReducer,
-    usersPage: usersPageReducer
+    usersPage: usersPageReducer,
+    authReducer: authReducer
 })
-
 
 
 export type AppStateType = ReturnType<typeof rootReducer>

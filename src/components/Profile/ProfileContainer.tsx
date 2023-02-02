@@ -23,7 +23,6 @@ class ProfileContainer extends React.Component<UserContainerPropsType> {
             }
             this.props.setProfileUser(userProfile)
             // this.props.getTotalUsersCount(response.data.totalCount)
-            console.log(this.props)
         })
     }
 
