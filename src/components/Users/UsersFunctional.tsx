@@ -4,7 +4,6 @@ import {UsersPropsType} from "./UsersContainer";
 import Preloader from "../common/Preloader/Preloader";
 import avatar from "../../images/ava.png";
 import {NavLink} from "react-router-dom";
-import {followAPI, unFollowAPI} from "../../api/api";
 
 type UsersFunctionalPropsType = UsersPropsType & {
     spanOnClickHandler: (pageNumber: number) => void
@@ -20,25 +19,12 @@ const UsersFunctional = (props: UsersFunctionalPropsType) => {
     }
 
     const unFollow = (userId: number) => {
-        props.setFollowingInProgress(userId)
-        unFollowAPI(userId).then(res => {
-            if (res === 0) {
-                props.unfollow(userId)
-            }
-            props.setFollowingInProgress(userId)
-        })
+        props.unfollow(userId)
     }
 
 
     const follow = (userId: number) => {
-        props.setFollowingInProgress(userId)
-        followAPI(userId).then(res => {
-            if (res === 0) {
-                props.follow(userId)
-            }
-            props.setFollowingInProgress(userId)
-
-        })
+        props.follow(userId)
     }
 
     return (
@@ -55,15 +41,8 @@ const UsersFunctional = (props: UsersFunctionalPropsType) => {
                                                                    alt="Фото профиля"/></NavLink>
                     </div>
 
-                    <div>{u.followed ? <button disabled={props.followingInProgress.some(id => id === u.id)} onClick={() => {
-                        unFollow(u.id)
-                    }}>Unfollow
-                    </button> :
-
-                        <button disabled={props.followingInProgress.some(id => id === u.id)} onClick={() => {
-                        follow(u.id)
-                    }}>Follow
-                        </button>}</div>
+                    <div>{u.followed ? <button disabled={props.followingInProgress.some(id => id === u.id)} onClick={() => {unFollow(u.id)}}>Unfollow</button>
+                        : <button disabled={props.followingInProgress.some(id => id === u.id)} onClick={() => {follow(u.id)}}>Follow</button>}</div>
                 </div>)}
             </div>}
 

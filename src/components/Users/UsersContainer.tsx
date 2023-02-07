@@ -3,34 +3,23 @@ import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
 import {
     changePageAC,
-    followAC, followingInProgressAC, followingInProgressActionType,
-    getTotalUsersCountAC,
-    SetActionCreator, toggleIsFetchingAC, unFollowAC,
+    followingInProgressAC, followThunkCreator,
+    getTotalUsersCountAC, getUsersThunkCreator,
+    setActionCreator, toggleIsFetchingAC, unFollowThunkCreator,
     UserType
 } from "../../redux/usersPageReducer";
-
-import axios from "axios";
 import UsersFunctional from "./UsersFunctional";
-import {changePageApi, getUsersApi} from "../../api/api";
+
 
 class UsersAPIComponent extends React.Component<UsersPropsType> {
 
     spanOnClickHandler = (pageNumber: number) => {
+        this.props.getUsersThunk(pageNumber, this.props.pageSize)
         this.props.changePage(pageNumber)
-        this.props.toggleIsFetching(true)
-        changePageApi(pageNumber, this.props.pageSize).then(response => {
-            this.props.toggleIsFetching(false)
-            this.props.set(response.items)
-        })
     }
 
     componentDidMount() {
-        this.props.toggleIsFetching(true)
-        getUsersApi(this.props.currentPage, this.props.pageSize).then((response) => {
-            this.props.toggleIsFetching(false)
-            this.props.set(response.items)
-            this.props.getTotalUsersCount(response.totalCount)
-        })
+        this.props.getUsersThunk(this.props.currentPage, this.props.pageSize)
     }
 
 
@@ -50,6 +39,7 @@ class UsersAPIComponent extends React.Component<UsersPropsType> {
             toggleIsFetching={this.props.toggleIsFetching}
             followingInProgress={this.props.followingInProgress}
             setFollowingInProgress={this.props.setFollowingInProgress}
+            getUsersThunk={this.props.getUsersThunk}
         />
     }
 }
@@ -71,6 +61,7 @@ type UsersMapDispatchToProps = {
     unfollow: (id: number) => void
     toggleIsFetching: (isFetching: boolean) => void
     setFollowingInProgress: (followingInProgress: number) => void
+    getUsersThunk: (currentPage: number, pageSize: number) => void
 }
 
 export type UsersPropsType = UsersMapDispatchToProps & UsersMapStateToProps
@@ -88,65 +79,16 @@ const mapStateToProps = (state: AppStateType): UsersMapStateToProps => {
 
 
 const UsersContainer = connect(mapStateToProps, {
-        follow: followAC,
-        set: SetActionCreator,
-        changePage: changePageAC,
-        getTotalUsersCount: getTotalUsersCountAC,
-        unfollow: unFollowAC,
-        toggleIsFetching: toggleIsFetchingAC,
-        setFollowingInProgress: followingInProgressAC
-    })  (UsersAPIComponent)
+    set: setActionCreator,
+    changePage: changePageAC,
+    getTotalUsersCount: getTotalUsersCountAC,
+    unfollow: unFollowThunkCreator,
+    toggleIsFetching: toggleIsFetchingAC,
+    setFollowingInProgress: followingInProgressAC,
+    getUsersThunk: getUsersThunkCreator,
+    follow: followThunkCreator
+})(UsersAPIComponent)
 
 export default UsersContainer;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-// const mapDispatchToProps = (dispatch: Dispatch): UsersMapDispatchToProps => {
-//     return {
-//         follow: (id: number) => {
-//             dispatch(followAC(id))
-//         },
-//         set: (users: Array<UserType>) => {
-//             dispatch(SetActionCreator(users))
-//         },
-//         changePage: (page: number) => {
-//             dispatch(changePageAC(page))
-//         },
-//         getTotalUsersCount: (total: number) => {
-//             dispatch(getTotalUsersCountAC(total))
-//         },
-//         unfollow: (id: number) => {
-//             dispatch(unFollowAC(id))
-//         },
-//         toggleIsFetching: (toggleIsFetching: boolean) => {
-//             dispatch(toggleIsFetchingAC(toggleIsFetching))
-//         }
-//     }
-// }

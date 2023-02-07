@@ -1,5 +1,8 @@
 import {PostType} from "./state";
 import {ActionTypes} from "./redux-store";
+import {amIloggedInAPI} from "../api/api";
+import {Dispatch} from "redux";
+import {setUserDataAC} from "./auth-reducer";
 
 export const AddPostAC = (message: string): AddPostActionType => {
     return {
@@ -78,7 +81,6 @@ const profilePageReducer = (state: profilePageInitialStateType = initialState , 
     }
     return state
 }
-
 
 
 

@@ -7,7 +7,7 @@ import MyPosts from "./MyPosts";
 
 
 type ProfileMapStateToPropsType = {
-    profilePage: profilePageInitialStateType
+    profilePage: profilePageInitialStateType,
 }
 
 type ProfileMapDispatchToPropsType = {
@@ -18,7 +18,7 @@ export type MyPostsPropsType = ProfileMapStateToPropsType & ProfileMapDispatchTo
 
 const mapStateToProps = (state: AppStateType): ProfileMapStateToPropsType => {
     return {
-        profilePage: state.profilePage
+        profilePage: state.profilePage,
     }
 }
 

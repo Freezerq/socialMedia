@@ -2,6 +2,7 @@ import React, {ChangeEvent, useState} from 'react';
 import classes from "./MyPosts.module.css"
 import Post from "./Post/Post";
 import {MyPostsPropsType} from "./MyPostsContainer";
+import {Redirect} from "react-router-dom";
 
 
 
@@ -21,6 +22,8 @@ const MyPosts = (props: MyPostsPropsType) => {
     const textAreaOnChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
         setTextAreaInput(e.currentTarget.value)
     }
+
+
 
     return (
         <div className={classes.content}>

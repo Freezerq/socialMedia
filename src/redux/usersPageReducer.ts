@@ -1,19 +1,13 @@
-// export const AddPostAC = (message: string): AddPostActionType => {
-//     return {
-//         type: "ADD-POST",
-//         message: message
-//     }
-// }
-// import {ActionTypes} from "./profilePageReducer";
-
-
 import {ActionTypes} from "./redux-store";
+import {Dispatch} from "redux";
+import {followAPI, getProfileAPI, getUsersApi, unFollowAPI} from "../api/api";
+import {setUserDataAC} from "./auth-reducer";
+import {ProfileUserType, setProfileUserAC} from "./profilePageReducer";
 
 export type SetActionType = {
     type: "SET"
     list: Array<UserType>
 }
-
 
 export type FollowActionType = {
     type: "FOLLOW"
@@ -49,7 +43,6 @@ export const getTotalUsersCountAC = (totalUsersCount: number): TotalUsersCountAc
     }
 }
 
-
 export const changePageAC = (page: number): ChangePageActionType => {
     return {
         type: "CHANGE_PAGE",
@@ -71,7 +64,7 @@ export const followAC = (id: number): FollowActionType => {
     }
 }
 
-export const SetActionCreator = (list: Array<UserType>) => {
+export const setActionCreator = (list: Array<UserType>) => {
     return {
         type: "SET",
         list: list
@@ -90,12 +83,10 @@ export const followingInProgressAC = (followingInProgress: number): followingInP
     }
 }
 
-
 export type UnFollowActionType = {
     type: "UN_FOLLOW"
     id: number
 }
-
 
 export type UserType = {
     id: number
@@ -169,8 +160,7 @@ const usersPageReducer = (state: usersPageInitialStateType = initialState, actio
                     ...copy,
                     followingInProgress: copy.followingInProgress.filter(u => u !== action.followingInProgress)
                 }
-            }
-            else {
+            } else {
                 return {
                     ...copy,
                     followingInProgress: [...copy.followingInProgress, action.followingInProgress]
@@ -180,5 +170,61 @@ const usersPageReducer = (state: usersPageInitialStateType = initialState, actio
     }
     return state
 }
+
+
+export const getUsersThunkCreator = (currentPage: number, pageSize: number) => {
+    return  (dispatch: Dispatch) => {
+        dispatch(toggleIsFetchingAC(true))
+        getUsersApi(currentPage, pageSize).then((response) => {
+            dispatch(toggleIsFetchingAC(false))
+            dispatch(setActionCreator(response.items))
+            dispatch(getTotalUsersCountAC(response.totalCount))
+        })
+    }
+}
+
+
+export const followThunkCreator = (userId: number) => {
+    return  (dispatch: Dispatch) => {
+        dispatch(followingInProgressAC(userId))
+        followAPI(userId).then(res => {
+            if (res === 0) {
+                dispatch(followAC(userId))
+            }
+            dispatch(followingInProgressAC(userId))
+
+        })
+    }
+}
+
+
+export const unFollowThunkCreator = (userId: number) => {
+    return  (dispatch: Dispatch) => {
+        dispatch(followingInProgressAC(userId))
+        unFollowAPI(userId).then(res => {
+            if (res === 0) {
+                dispatch(unFollowAC(userId))
+            }
+            dispatch(followingInProgressAC(userId))
+
+        })
+    }
+}
+
+export const getProfileThunkCreator = (userId: string) => {
+    return  (dispatch: Dispatch) => {
+        getProfileAPI(userId).then((response) => {
+            const userProfile: ProfileUserType = {
+                photos: response.data.photos,
+                userId: response.data.userId,
+                fullName: response.data.fullName,
+                lookingForAJobDescription: response.data.lookingForAJobDescription
+            }
+            dispatch(setProfileUserAC(userProfile))
+        })
+    }
+}
+
+
 
 export default usersPageReducer

@@ -8,6 +8,8 @@
 
 
 import {ActionTypes} from "./redux-store";
+import {Dispatch} from "redux";
+import {amIloggedInAPI} from "../api/api";
 
 
 
@@ -66,5 +68,22 @@ const authReducer = (state: AuthInitialStateType = authReducerInitialState, acti
     }
     return state
 }
+
+
+
+export const isLoggedInThunkCreator = () => {
+    return (dispatch: Dispatch) => {
+        amIloggedInAPI().then((response) => {
+            const data = {
+                id: response.data.data.id,
+                login: response.data.data.login,
+                email: response.data.data.email,
+            }
+            const messages = response.data.messages
+            dispatch(setUserDataAC(data, messages))
+        })
+    }
+}
+
 
 export default authReducer
