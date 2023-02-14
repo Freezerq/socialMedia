@@ -29,9 +29,23 @@ export const unFollowAPI = (userId: number) => {
 
 
 export const amIloggedInAPI = () => {
-    return instance.get(`https://social-network.samuraijs.com/api/1.0/auth/me`)
+    return instance.get(`auth/me`)
 }
 
-export const getProfileAPI = (userId: string) => {
-    return instance.get(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`)
+export const getProfileAPI = (userId: number) => {
+    return instance.get(`profile/${userId}`)
+}
+
+export const getProfileStatusAPI = (userId: string) => {
+    return instance.get(`profile/status/${userId}`)
+}
+
+
+export const setProfileStatusAPI = (status: string) => {
+    return instance.put(`profile/status`, {status})
+}
+
+
+export const loginAPI = (payload: any) => {
+    return instance.post(`auth/login`, {email: payload.email, password: payload.password})
 }

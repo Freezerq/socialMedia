@@ -211,19 +211,7 @@ export const unFollowThunkCreator = (userId: number) => {
     }
 }
 
-export const getProfileThunkCreator = (userId: string) => {
-    return  (dispatch: Dispatch) => {
-        getProfileAPI(userId).then((response) => {
-            const userProfile: ProfileUserType = {
-                photos: response.data.photos,
-                userId: response.data.userId,
-                fullName: response.data.fullName,
-                lookingForAJobDescription: response.data.lookingForAJobDescription
-            }
-            dispatch(setProfileUserAC(userProfile))
-        })
-    }
-}
+
 
 
 

@@ -1,5 +1,9 @@
 import {applyMiddleware, combineReducers, createStore} from "redux"
-import profilePageReducer, {AddPostActionType, setProfileUserActionType} from "./profilePageReducer";
+import profilePageReducer, {
+    AddPostActionType,
+    setProfileUserActionType,
+    SetStatusActionType
+} from "./profilePageReducer";
 import dialogsPageReducer, {SendMessageActionType} from "./dialogsPageReducer";
 import usersPageReducer, {
     ChangePageActionType,
@@ -9,9 +13,7 @@ import usersPageReducer, {
 } from "./usersPageReducer";
 import authReducer, {SetUserDataActionType} from "./auth-reducer";
 import thunkMiddleware from "redux-thunk";
-
-
-
+import {reducer as formReducer} from 'redux-form';
 
 
 export type ActionTypes =
@@ -26,13 +28,15 @@ export type ActionTypes =
     | setProfileUserActionType
     | SetUserDataActionType
     | followingInProgressActionType
+    | SetStatusActionType
 
 
 export const rootReducer = combineReducers({
     profilePage: profilePageReducer,
     dialogsPage: dialogsPageReducer,
     usersPage: usersPageReducer,
-    authReducer: authReducer
+    authReducer: authReducer,
+    form: formReducer
 })
 
 

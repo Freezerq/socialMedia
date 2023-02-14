@@ -5,8 +5,10 @@ import Navbar from "./components/Navbar/Navbar";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import {BrowserRouter, Route} from "react-router-dom";
 import UsersContainer from "./components/Users/UsersContainer";
-import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
+import LoginForm from "./components/Login/Login";
+import ProfileContainer from "./components/Profile/ProfileContainer";
+import LoginReduxForm from "./components/Login/Login";
 import Login from "./components/Login/Login";
 
 

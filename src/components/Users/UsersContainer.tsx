@@ -9,6 +9,8 @@ import {
     UserType
 } from "../../redux/usersPageReducer";
 import UsersFunctional from "./UsersFunctional";
+import {compose} from "redux";
+import {AuthRedirect} from "../../hoc/AuthRedirect";
 
 
 class UsersAPIComponent extends React.Component<UsersPropsType> {
@@ -89,6 +91,20 @@ const UsersContainer = connect(mapStateToProps, {
     follow: followThunkCreator
 })(UsersAPIComponent)
 
-export default UsersContainer;
+
+
+export default compose<React.ComponentType>(
+    AuthRedirect,
+    connect(mapStateToProps, {
+        set: setActionCreator,
+        changePage: changePageAC,
+        getTotalUsersCount: getTotalUsersCountAC,
+        unfollow: unFollowThunkCreator,
+        toggleIsFetching: toggleIsFetchingAC,
+        setFollowingInProgress: followingInProgressAC,
+        getUsersThunk: getUsersThunkCreator,
+        follow: followThunkCreator
+    })
+)(UsersAPIComponent)
 
 
