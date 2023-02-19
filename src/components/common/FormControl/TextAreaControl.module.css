@@ -1,0 +1,11 @@
+.form {
+
+}
+
+.error {
+    border: 2px solid red;
+}
+
+.errorFromServer {
+    color: red;
+}

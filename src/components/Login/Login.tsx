@@ -1,7 +1,9 @@
 import React from 'react';
-import {Field, Form, InjectedFormProps, reduxForm} from "redux-form";
-import {loginAPI} from "../../api/api";
-import {log} from "util";
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
+import {loginTC} from "../../redux/auth-reducer";
+import {useDispatch} from "react-redux";
+import TextAreaControl from "../common/FormControl/TextAreaControl";
+import styles from '../common/FormControl/TextAreaControl.module.css'
 
 type FormDataType = {
     login: string
@@ -13,13 +15,16 @@ const LoginForm = (props: InjectedFormProps<FormDataType>) => {
     return (
             <form onSubmit={props.handleSubmit}>
                 <div>
-                    <Field placeholder={'Login'} name={'login'} component={'input'}></Field>
+                    <Field placeholder={'Login'} name={'login'} component={TextAreaControl}></Field>
                 </div>
                 <div>
-                    <Field placeholder={'Password'} name={'password'} component={'input'}></Field>
+                    <Field placeholder={'Password'} name={'password'} component={TextAreaControl}></Field>
                 </div>
                 <div>
                     <Field type={'checkbox'} name={'rememberMe'} component={'input'}></Field> Remember me
+                </div>
+                <div className={styles.errorFromServer}>
+                    {props.error}
                 </div>
                 <div>
                     <button>Login</button>
@@ -29,14 +34,10 @@ const LoginForm = (props: InjectedFormProps<FormDataType>) => {
 };
 
 const Login = () => {
+    const dispatch = useDispatch()
 
     const onSubmit = (formdata: FormDataType) => {
-        const payload = {
-            email: formdata.login,
-            password: formdata.password,
-            rememberMe: formdata.rememberMe
-        }
-        loginAPI(payload).then(res => console.log(res))
+        dispatch(loginTC(formdata.login, formdata.password, formdata.rememberMe))
     }
 
     return (

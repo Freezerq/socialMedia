@@ -9,14 +9,15 @@
 
 import {ActionTypes} from "./redux-store";
 import {Dispatch} from "redux";
-import {amIloggedInAPI} from "../api/api";
+import {amIloggedInAPI, loginAPI, logoutAPI} from "../api/api";
+import {stopSubmit} from "redux-form";
 
 
 
 export type SetUserDataActionType = {
     type: "SET_USER_DATA"
     data: {
-        id: null | number,
+        id: number,
         login: null | string,
         email: null | string
     }
@@ -24,7 +25,7 @@ export type SetUserDataActionType = {
 
 }
 
-export const setUserDataAC = (data: { id: null|number, login: null|string, email: null|string }, messages: Array<any>): SetUserDataActionType => {
+export const setUserDataAC = (data: { id: number, login: null|string, email: null|string }, messages: Array<any>): SetUserDataActionType => {
     return {
         type: "SET_USER_DATA",
         data: data,
@@ -32,12 +33,18 @@ export const setUserDataAC = (data: { id: null|number, login: null|string, email
     }
 }
 
+export const logOutAC = (): LogOutActionType => {
+    return {
+        type: "LOG_OUT",
+    }
+}
 
+export type LogOutActionType = ({type: "LOG_OUT"})
 
 
 export type AuthInitialStateType = {
     data: {
-        id: null | number,
+        id: number
         login: null | string,
         email: null | string
     },
@@ -47,7 +54,7 @@ export type AuthInitialStateType = {
 
 const authReducerInitialState: AuthInitialStateType = {
     data: {
-        id: null,
+        id: 0,
         login: null,
         email: null
     },
@@ -65,6 +72,11 @@ const authReducer = (state: AuthInitialStateType = authReducerInitialState, acti
                 messages: {...action.messages},
                 isAuth: true
             }
+        case "LOG_OUT":
+            return {
+                ...state,
+                isAuth: false
+            }
     }
     return state
 }
@@ -80,10 +92,46 @@ export const isLoggedInThunkCreator = () => {
                 email: response.data.data.email,
             }
             const messages = response.data.messages
-            dispatch(setUserDataAC(data, messages))
+            if (data.email !== undefined) {
+                dispatch(setUserDataAC(data, messages))
+            }
         })
     }
 }
+export const logOutTC = () => {
+    return (dispatch: Dispatch) => {
+        logoutAPI().then(res => {
+            dispatch(logOutAC())
+            if (res.data.resultCode === 0) {
+                dispatch(logOutAC())
+            }
+        })
+
+    }
+}
+
+export const loginTC = (email: string, password: string, rememberMe: boolean) => {
+    const payload = {
+        email: email,
+        password: password,
+        rememberMe: rememberMe
+    }
+    return (dispatch: Dispatch) => {
+        loginAPI(payload).then(res => {
+            if (res.data.resultCode === 0) {
+                dispatch(setUserDataAC({id: res.data.userId, login: '1', email: email}, []))
+            }
+            else {
+                // dispatch(stopSubmit('login', {login: "Email is wrong"}))
+                dispatch(stopSubmit('login', {_error: res.data.messages[0]}))
+            }
+        })
+
+    }
+}
+
+
+//logoutAPI()
 
 
 export default authReducer

@@ -49,3 +49,7 @@ export const setProfileStatusAPI = (status: string) => {
 export const loginAPI = (payload: any) => {
     return instance.post(`auth/login`, {email: payload.email, password: payload.password})
 }
+
+export const logoutAPI = () => {
+    return instance.delete(`auth/login`)
+}

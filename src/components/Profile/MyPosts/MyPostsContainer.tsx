@@ -24,8 +24,8 @@ const mapStateToProps = (state: AppStateType): ProfileMapStateToPropsType => {
 
 const mapDispatchToProps = (dispatch: Dispatch):ProfileMapDispatchToPropsType  => {
     return {
-        addPost: (message: string) => {
-            dispatch(addPostAC(message))
+        addPost: (post: string) => {
+            dispatch(addPostAC(post))
         },
     }
 }

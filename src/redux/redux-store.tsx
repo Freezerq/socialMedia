@@ -11,7 +11,7 @@ import usersPageReducer, {
     SetActionType, ToggleIsFetchingActionType, TotalUsersCountActionType,
     UnFollowActionType
 } from "./usersPageReducer";
-import authReducer, {SetUserDataActionType} from "./auth-reducer";
+import authReducer, {logOutAC, LogOutActionType, SetUserDataActionType} from "./auth-reducer";
 import thunkMiddleware from "redux-thunk";
 import {reducer as formReducer} from 'redux-form';
 
@@ -29,6 +29,7 @@ export type ActionTypes =
     | SetUserDataActionType
     | followingInProgressActionType
     | SetStatusActionType
+    | LogOutActionType
 
 
 export const rootReducer = combineReducers({

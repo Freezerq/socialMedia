@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from "./Header";
-import {AuthInitialStateType, isLoggedInThunkCreator, setUserDataAC} from "../../redux/auth-reducer";
+import {AuthInitialStateType, isLoggedInThunkCreator, loginTC, logOutTC, setUserDataAC} from "../../redux/auth-reducer";
 import {AppStateType} from "../../redux/redux-store";
 import {connect} from "react-redux";
 
@@ -13,7 +13,7 @@ class HeaderContainer extends React.Component<HeaderPropsType> {
 
 
     render() {
-        return <Header headerPage={this.props.headerPage} setUsers={this.props.setUsers} loggingIn={this.props.loggingIn}/>
+        return <Header headerPage={this.props.headerPage} setUsers={this.props.setUsers} loggingIn={this.props.loggingIn} logOut={this.props.logOut}/>
     }
 
 }
@@ -22,8 +22,9 @@ type HeaderMapStateToProps = {
 }
 
 type HeaderMapDispatchToProps = {
-    setUsers: (data: { id: null|number, login: null|string, email: null|string }, messages: Array<any>) => void
+    setUsers: (data: { id: number, login: null|string, email: null|string }, messages: Array<any>) => void
     loggingIn: () => void
+    logOut: () => void
 }
 
 export type HeaderPropsType = HeaderMapDispatchToProps & HeaderMapStateToProps
@@ -33,4 +34,6 @@ const mapStateToProps = (state: AppStateType): HeaderMapStateToProps => {
         headerPage: state.authReducer
     }
 }
-export default connect(mapStateToProps, {setUsers: setUserDataAC, loggingIn: isLoggedInThunkCreator})  (HeaderContainer)
+export default connect(mapStateToProps, {setUsers: setUserDataAC, loggingIn: isLoggedInThunkCreator,
+logOut: logOutTC
+})  (HeaderContainer)

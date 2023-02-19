@@ -8,6 +8,8 @@ type PostPropsType = {
 }
 
 const Post = (props:PostPropsType) => {
+
+
     return (
         <div>
             <div className={classes.item}>

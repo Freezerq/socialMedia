@@ -5,10 +5,9 @@ import {
     getProfileThunkCreator, getProfileStatusThunkCreator,
     ProfileUserType,
     setProfileStatusThunkCreator,
-    setProfileUserAC, setStatusAC
 } from "../../redux/profilePageReducer";
 import {AppStateType} from "../../redux/redux-store";
-import {Redirect, RouteComponentProps, withRouter} from "react-router-dom";
+import {RouteComponentProps, withRouter} from "react-router-dom";
 import {compose} from "redux";
 import {AuthRedirect} from "../../hoc/AuthRedirect";
 
@@ -17,15 +16,10 @@ class ProfileContainer extends React.Component<UserContainerPropsType> {
     componentDidMount() {
         let userId = this.props.match.params.userId
         if (!userId) {
-            userId = '27535'
-
+            userId = String(this.props.userId)
         }
-        this.props.getStatus(userId)
-        this.props.getProfile(userId)
-        // console.log('PROF CNT' + this.props.getProfile(userId))
-        // console.log('STATUS PROF CONT ' + this.props.getStatus(userId))
-        // setProfileStatusAPI('TESTING')
-        // console.log(getProfileStatusAPI('27535'))
+        this.props.getStatus(String(userId))
+        this.props.getProfile(String(userId))
     }
 
     render() {
@@ -36,6 +30,7 @@ class ProfileContainer extends React.Component<UserContainerPropsType> {
 type mapStateToPropsType = {
     profile: ProfileUserType
     status: string
+    userId: number
 }
 
 type mapDispatchToPropsType = {
@@ -53,7 +48,8 @@ type PathParamsType = {
 const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
     return {
         profile: state.profilePage.profile,
-        status: state.profilePage.status
+        status: state.profilePage.status,
+        userId: state.authReducer.data.id
     }
 }
 

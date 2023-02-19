@@ -1,17 +1,18 @@
 * {
-  font-size: 40px;
+    font-size: 40px;
 }
 
 .app-wrapper {
-  width: 1400px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-areas:
+    width: 1400px;
+    height: 100vh;
+    margin: 0 auto;
+    display: grid;
+    grid-template-areas:
           "h h"
           "n c"
           "n c";
-  grid-template-columns: 1fr 5fr;
-  grid-template-rows: 1fr 99fr;
+    grid-template-columns: 1fr 5fr;
+    grid-template-rows: 1fr 99fr;
 }
 
 
